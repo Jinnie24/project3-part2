@@ -12,6 +12,7 @@ import {
 } from 'react-router-dom'
 
 import Inventory from './containers/Inventory.js';
+import Transactions from './containers/Transactions.js';
 import HomePage from './components/HomePage.js';
 import LoginPage from './containers/LoginPage.js';
 import LogoutFunction from './containers/LogoutFunction.js';
@@ -85,6 +86,7 @@ class Main extends Component {
                 <div className="top-bar-right">
                   <Link to="/dashboard">Dashboard</Link>
                   <Link to="/inventory">Inventory</Link>
+                  <Link to="/transactions">Transactions</Link>
                   <Link to="/logout">Log out</Link>
                 </div>
               ) : (
@@ -102,6 +104,7 @@ class Main extends Component {
             <LoggedOutRoute path="/signup" component={SignUpPage}/>
             <Route path="/logout" component={LogoutFunction}/>
             <PrivateRoute path="/inventory" component={Inventory}/>
+            <PrivateRoute path="/transactions" component={Transactions}/>
           </div>
 
         </Router>

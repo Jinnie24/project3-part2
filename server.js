@@ -52,9 +52,11 @@ app.use('/api', authCheckMiddleware);
 const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
 const inventoryRoutes = require('./routes/inventory');
+const transactionsRoutes = require('./routes/transactions');
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 app.use('/inventory', inventoryRoutes);
+app.use('/transactions', transactionsRoutes);
 
 
 // Start the API server
