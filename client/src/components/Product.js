@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
+import Icon from '@material-ui/core/Icon';
 
 class Product extends Component {
   constructor(props) {
@@ -8,7 +14,8 @@ class Product extends Component {
       name: "",
       price: 0,
       quantity: 0,
-      productModal: false
+      productModal: false,
+      selected: false
     };
   }
   componentDidMount() {
@@ -44,6 +51,18 @@ class Product extends Component {
     this.setState({ quantity: this.state.newQuantity });
     this.setState({ price: this.state.newPrice });
   };
+  handleSelectedProduct = e => {
+    e.preventDefault();
+    var addProduct = {
+      name: this.state.name,
+      quantity: this.state.quantity,
+      price: this.state.price,
+      selected: true
+    };
+    this.setState({ selected: true });
+    this.props.onAddProduct(addProduct);
+  }
+  
   render() {
     const {
       newName,
@@ -54,19 +73,30 @@ class Product extends Component {
       quantity
     } = this.state;
     return (
-      <tr>
-        <td>
-          <a href=""> {name} </a>
-        </td>
-        <td> ${price} </td> <td> {quantity} </td>
-        <td>
-          <a
-            className="btn btn-info"
-            onClick={() => this.setState({ productModal: true })}
+      <TableRow>
+        <TableCell>{name}</TableCell>
+        <TableCell numeric>${price}</TableCell>
+        <TableCell numeric>{quantity}</TableCell>
+        <TableCell numeric>
+          <Button 
+          variant="fab" 
+          color="primary" 
+          aria-label="Add"
+          onClick={() => this.setState({ selected: true })}
           >
-            <i className="glyphicon glyphicon-pencil" />
-          </a>
-        </td>
+            <AddIcon />
+          </Button>
+          <Button 
+            variant="fab" 
+            color="secondary" 
+            aria-label="Edit" 
+            onClick={this.handleSelectedProduct}
+            >
+            <EditIcon />
+          </Button>
+          
+        </TableCell>
+        
         <Modal show={this.state.productModal}>
           <Modal.Header>
             <Modal.Title>Edit Product</Modal.Title>
@@ -133,13 +163,14 @@ class Product extends Component {
             </form>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => this.setState({ productModal: false })}>
+            <Button color="primary" onClick={() => this.setState({ productModal: false })}>
               Close
             </Button>
-            <Button onClick={this.handleProduct}>Update</Button>
+            <Button color="secondary" onClick={this.handleProduct}>Update</Button>
           </Modal.Footer>
         </Modal>
-      </tr>
+      </TableRow>
+      
     );
   }
 }

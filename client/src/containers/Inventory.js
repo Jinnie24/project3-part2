@@ -1,8 +1,16 @@
 import React, { Component } from "react";
 import Product from "../components/Product";
-import "./Inventory.css";
+import CustomPaginationActionsTable from "../components/CustomPaginationActionsTable";
 import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper'
 
 const HOST = "http://localhost:3001";
 
@@ -17,14 +25,19 @@ class Inventory extends Component {
       name: "",
       snackMessage: "",
       quantity: "",
-      price: ""
+      price: "",
+      selectedProducts: []
     };
     this.handleNewProduct = this.handleNewProduct.bind(this);
     this.handleName = this.handleName.bind(this);
     this.handlePrice = this.handlePrice.bind(this);
     this.handleQuantity = this.handleQuantity.bind(this);
     this.handleSnackbar = this.handleSnackbar.bind(this);
+    this.handleAddProduct = this.handleAddProduct.bind(this);
   }
+
+  
+
   componentWillMount() {
     var url = HOST + `/inventory/products`;
     axios.get(url).then(response => {
@@ -70,6 +83,11 @@ class Inventory extends Component {
         return false;
       });
   };
+  handleAddProduct = e => {
+    var { products } = this.state;
+    const selectedProducts = products.filter(product => (product.selected = true));
+    this.setState({selectedProducts: selectedProducts});
+  };
 
   handleName = e => {
     this.setState({ name: e.target.value });
@@ -94,7 +112,7 @@ class Inventory extends Component {
   };
 
   render() {
-    var { products, snackMessage } = this.state;
+    var { products, snackMessage, selectedProducts } = this.state;
 
     var renderProducts = () => {
       if (products.length === 0) {
@@ -103,6 +121,14 @@ class Inventory extends Component {
         return products.map(product => (
           <Product {...product} onEditProduct={this.handleEditProduct} />
         ));
+      }
+    };
+    var renderSelectedProducts = () => {
+      if (products.length === 0) {
+        return <p>{selectedProducts}</p>;
+      } else {
+        return 
+          <Product {...selectedProducts} onChange={this.handleAddProduct} />
       }
     };
 
@@ -118,18 +144,31 @@ class Inventory extends Component {
           </a>
           <br />
           <br />
-
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity on Hand</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>{renderProducts()}</tbody>
-          </table>
+          <Paper>
+          <Table className="table">
+            <TableHead>
+              <TableRow className="inv-table">
+                <TableCell>Name</TableCell>
+                <TableCell numeric>Price</TableCell>
+                <TableCell numeric>Quantity on Hand</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{renderSelectedProducts()}</TableBody>
+          </Table>
+          </Paper>
+          
+          <Paper>
+          <Table className="table">
+            <TableHead>
+              <TableRow className="inv-table">
+                <TableCell>Name</TableCell>
+                <TableCell numeric>Price</TableCell>
+                <TableCell numeric>Quantity on Hand</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{renderProducts()}</TableBody>
+          </Table>
+          </Paper>
         </div>
 
         <Modal show={this.state.productFormModal}>
