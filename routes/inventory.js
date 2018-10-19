@@ -4,12 +4,11 @@ const inventoryController = require("../controllers/inventoryController");
 
 router.route("/products")
   .get(inventoryController.findAll)
-  .put(inventoryController.updateByTransaction)
+  .put(inventoryController.updateByTransaction);
 
 router.route("/product")
   .get(inventoryController.findById)
   .post(inventoryController.create)
-  .put(inventoryController.update);
 
 router.route("/selectedProducts")
   .post(inventoryController.create)

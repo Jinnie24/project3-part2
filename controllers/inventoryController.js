@@ -24,11 +24,38 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  update: function(req, res) {
-    db.Inventory
+  update: function(req, res){
+     db.Inventory
       .findOneAndUpdate({ _id: req.body._id }, req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
+  },
+  updateByTransaction: function(req, res) {
+    const items = req.body.items;
+    const invoiceType = req.body.invoiceType;
+    let updateQuantityBy = 0;
+    for (i=0; i < items.length; i++) {
+      if(invoiceType == "add"){
+        updateQuantityBy =
+          parseInt(items[i].quantity);
+      } else if (invoiceType == "subtract") {
+        updateQuantityBy =
+          (-parseInt(items[i].quantity));
+          console.log(updateQuantityBy);
+      }
+      let conditions = { _id: items[i]._id }, 
+      update = { $inc: { quantity: updateQuantityBy }};
+
+      db.Inventory.update(conditions, update, {multi: true}, callback);
+      
+      function callback (err, numAffected) {
+        if (err) {
+          console.log(err.response);
+        } else {
+          console.log(numAffected+ " record updated!");
+        }
+      }
+    } 
   },
   remove: function(req, res) {
     db.Inventory
@@ -38,28 +65,27 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   
-  updateByTransaction: function(products, invoiceType) {
-    async.eachSeries(products, function(transactionProduct, callback) {
-      db.Inventory.findOne({ _id: transactionProduct._id }, function(
-        err,
-        product
-      ) {
-        if(invoiceType = "add"){
-          var updatedQuantity =
-            parseInt(poduct.quantity) +
-            parseInt(transactionProduct.quantity);
-        } else if (invoiceType = "subtract") {
-          var updatedQuantity =
-            parseInt(poduct.quantity) -
-            parseInt(transactionProduct.quantity);
-        }
-          db.Inventory.update(
-            { _id: product._id },
-            { $set: { quantity: updatedQuantity } },
-            {},
-            callback
-          );
-      });
-    });
-  }
+  // updateByTransaction(transaction) {
+  //   async.eachSeries(transaction.items, function(transactionProduct) {
+  //     db.Inventory.findOne({ _id: transactionProduct._id }, function(
+  //       err,
+  //       product
+  //     ) {
+  //       if(transaction.invoiceType = "add"){
+  //         var updatedQuantity =
+  //           parseInt(poduct.quantity) +
+  //           parseInt(transactionProduct.quantity);
+  //       } else if (transaction.invoiceType = "subtract") {
+  //         var updatedQuantity =
+  //           parseInt(poduct.quantity) -
+  //           parseInt(transactionProduct.quantity);
+  //       }
+  //         db.Inventory.update(
+  //           { _id: product._id },
+  //           { $set: { quantity: updatedQuantity } },
+  //           {}
+  //         );
+  //     });
+  //   });
+  // }
 };

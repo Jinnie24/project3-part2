@@ -53,6 +53,12 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
             .catch(err => {
                 console.log(err.response)
             });
+
+        axios
+            .put(HOST + `/inventory/products`, newTransaction)
+            .catch(err => {
+                console.log(err.response)
+            });
            
     }
 

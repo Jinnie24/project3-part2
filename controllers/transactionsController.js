@@ -72,16 +72,15 @@ module.exports = {
     );
   },
   create: function(req, res) {
-    var newTransaction = req.body;
-    invoiceType = req.body.invoiceType;
+    const newTransaction = req.body;
 
     db.Transactions.create(newTransaction, function(err, transaction) {
       if (err) res.status(500).send(err);
       else {
         res.sendStatus(200);
-        db.Inventory.updateByTransaction(transaction.items, invoiceType);
       }
     });
+
   },
   findById: function(req, res) {
     db.Transaction
