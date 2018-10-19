@@ -13,7 +13,7 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
 
     const prodview = products.map((product, index) => {
         // console.log(product);
-        console.log(selectedImportProducts);
+        // console.log(selectedImportProducts);
         return (<ProductData key={product._id}
                              product={product}
                              selectedProducts={selectedProducts}

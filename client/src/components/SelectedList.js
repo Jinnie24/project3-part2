@@ -7,9 +7,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import ProductData from './ProductData';
 import Autosuggest from 'react-autosuggest';
+import axios from "axios";
 // import Product from "./Product";
 
 export default ({ products,selectedProducts,update,type,inventoryState,selectedImportProducts }) => {
+    const HOST = "http://localhost:3001";
     if (!products) { return ('Select smth please'); }
     let totalprice=0;
     let selprod = products.filter((product) => {
@@ -31,10 +33,23 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
     });
     const sendOrder = e =>{
         console.log('Send order');
-        console.log(selectedProducts,selprod,totalprice);
-        // const newTransaction = {
+        
+        for (let i=0; i<selprod.length; i++) {
+            let val = selprod[i]._id
+            selprod[i].quantity = selectedProducts[val];
+        }
+        // console.log(selectedProducts,selprod,totalprice);
+        let newTransaction = {
+            items : selprod,
+            invoiceType : "subtract",
+            total : totalprice
+        }
 
-        // }
+        axios
+            .post(HOST + `/transactions/create`, newTransaction)
+            .catch(err => {
+                console.log(err.response)
+            });
     }
     if(Object.keys(selectedProducts).length===0){
         return (

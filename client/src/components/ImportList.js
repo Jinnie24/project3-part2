@@ -7,9 +7,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import ProductData from './ProductData';
 import Autosuggest from 'react-autosuggest';
+import axios from "axios";
 // import Product from "./Product";
 
 export default ({ products,selectedProducts,update,type,inventoryState,selectedImportProducts }) => {
+    const HOST = "http://localhost:3001";
     if (!products) { return ('Select smth please'); }
     let totalprice=0;
     let selimportprod = products.filter((product) => {
@@ -18,7 +20,7 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
     });
     const selimportprodview = selimportprod.map((product, index) => {
         // totalprice=totalprice+product.price*+selectedImportProducts[product._id];
-
+        // totalprice=totalprice+product.price*+selectedImportProducts[product._id];
         return (<ProductData key={product._id}
                              product={product}
                              selectedProducts={selectedProducts}
@@ -29,6 +31,30 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
                              inventoryState={inventoryState}
                              selectedImportProducts={selectedImportProducts}/>);
     });
+
+    const sendOrder = e =>{
+        console.log('Send order');
+        
+        for (let i=0; i<selimportprod.length; i++) {
+            let val = selimportprod[i]._id
+            selimportprod[i].quantity = selectedImportProducts[val];
+            totalprice += selimportprod[i].quantity*selimportprod[i].price
+        }
+        
+         
+        let newTransaction = {
+            items : selimportprod,
+            invoiceType : "add",
+            total : totalprice
+        }
+        console.log(newTransaction);
+        axios
+            .post(HOST + `/transactions/create`, newTransaction)
+            .catch(err => {
+                console.log(err.response)
+            });
+           
+    }
 
     if(Object.keys(selectedImportProducts).length===0){
         return (
@@ -82,7 +108,7 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
                     </a>
                     <a
                         className="btn btn-success"
-                        
+                        onClick={sendOrder}
                     >
                         <i className="glyphicon glyphicon-shopping-cart"/> ADD NEW PRODUCTS
                     </a>

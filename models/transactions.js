@@ -10,8 +10,7 @@ const TransactionsSchema = new Schema({
      }],
     invoiceType: {
         type: String, 
-        required: true, 
-        enum: ["add", "subtract", "write-off"] 
+        required: true
     },
     total: {type: Number, required: true }
 });

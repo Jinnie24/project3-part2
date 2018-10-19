@@ -18,7 +18,7 @@ export default ({ product,selectedProducts,index, keyto, update, type, inventory
     const addToSelected = (id) => {
         if ((thisquantity>0)&&(thisquantity<=product.quantity)) {
             selectedProducts[id] = thisquantity;
-            console.log(selectedProducts);
+            // console.log(selectedProducts);
             update({
                 selectedProducts: selectedProducts
             });
