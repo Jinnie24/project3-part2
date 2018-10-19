@@ -12,7 +12,7 @@ module.exports = {
   },
   findById: function(req, res) {
     db.Inventory
-      .findById(req.params.id)
+      .findById(req.body._id)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -37,27 +37,28 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  decrementInventory: function(items) {
-    async.eachSeries(items, function(transactionItem, callback) {
-      db.Inventory.findById({ _id: transactionItem._id }, function(
-        err,
-        item
-      ) {
-        // catch manually added items (don't exist in inventory)
-        if (!item || !item.quantity_on_hand) {
-          callback();
-        } else {
-          var updatedQuantity =
-            parseInt(item.quantity_on_hand) -
-            parseInt(transactionItem.quantity);
   
-            db.Inventory.update(
-            { _id: item._id },
-            { $set: { quantity_on_hand: updatedQuantity } },
+  updateByTransaction: function(products, invoiceType) {
+    async.eachSeries(products, function(transactionProduct, callback) {
+      db.Inventory.findOne({ _id: transactionProduct._id }, function(
+        err,
+        product
+      ) {
+        if(invoiceType = "add"){
+          var updatedQuantity =
+            parseInt(poduct.quantity) +
+            parseInt(transactionProduct.quantity);
+        } else if (invoiceType = "subtract") {
+          var updatedQuantity =
+            parseInt(poduct.quantity) -
+            parseInt(transactionProduct.quantity);
+        }
+          db.Inventory.update(
+            { _id: product._id },
+            { $set: { quantity: updatedQuantity } },
             {},
             callback
           );
-        }
       });
     });
   }

@@ -1,259 +1,456 @@
-import React, { Component } from "react";
-import Product from "../components/Product";
+import React, {Component} from "react";
+// import Product from "../components/Product";
 import CustomPaginationActionsTable from "../components/CustomPaginationActionsTable";
 import axios from "axios";
-import { Modal, Button } from "react-bootstrap";
+import {Modal, Button} from "react-bootstrap";
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+
 import Paper from '@material-ui/core/Paper'
+
+import InventoryList from '../components/InventoryList';
+import SelectedList from '../components/SelectedList';
+import ImportList from '../components/ImportList';
+
+
+import Searchbar from '../components/SearchBar';
+import Toolbar from '../components/Toolbar';
+
 
 const HOST = "http://localhost:3001";
 
 
 class Inventory extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      products: [],
-      productFormModal: false,
-      name: "",
-      snackMessage: "",
-      quantity: "",
-      price: "",
-      selectedProducts: []
+    // constructor(props) {
+    //   super(props);
+    //
+    //   this.state = {
+    //     products: [],
+    //       initialproducts:[],
+    //     productFormModal: false,
+    //     name: "",
+    //     snackMessage: "",
+    //     quantity: "",
+    //     price: "",
+    //     selectedProducts: []
+    //   };
+    //   this.handleNewProduct = this.handleNewProduct.bind(this);
+    //   this.handleName = this.handleName.bind(this);
+    //   this.handlePrice = this.handlePrice.bind(this);
+    //   this.handleQuantity = this.handleQuantity.bind(this);
+    //   this.handleSnackbar = this.handleSnackbar.bind(this);
+    //   this.handleAddProduct = this.handleAddProduct.bind(this);
+    //
+    // }
+    //
+    //
+    // componentWillMount() {
+    //   var url = HOST + `/inventory/products`;
+    //   axios.get(url).then(response => {
+    //     this.setState({ products: response.data,initialproducts:response.data});
+    //     console.log(this.state);
+    //   });
+    // }
+    // handleNewProduct = e => {
+    //   e.preventDefault();
+    //   this.setState({ productFormModal: false });
+    //   var newProduct = {
+    //     name: this.state.name,
+    //     quantity: this.state.quantity,
+    //     price: this.state.price,
+    //   };
+    //
+    //   axios
+    //     .post(HOST + `/inventory/product`, newProduct)
+    //     .then(
+    //       response =>
+    //         window.location.reload(),
+    //
+    //     )
+    //     .catch(err => {
+    //       console.log(err.response),
+    //         this.setState({ snackMessage: "Product failed to save" }),
+    //         this.handleSnackbar();
+    //     });
+    //
+    //
+    // };
+    // handleEditProduct = editProduct => {
+    //   axios
+    //     .put(HOST + `/inventory/product`, editProduct)
+    //     .then(response => {
+    //       this.setState({ snackMessage: "Product Updated Successfully!" });
+    //       this.handleSnackbar();
+    //       return true;
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //       this.setState({ snackMessage: "Product Update Failed!" }),
+    //         this.handleSnackbar();
+    //       return false;
+    //     });
+    // };
+    // handleAddProduct = e => {
+    //   var { products } = this.state;
+    //   const selectedProducts = products.filter(product => (product.selected = true));
+    //   this.setState({selectedProducts: selectedProducts});
+    // };
+    //
+    // handleName = e => {
+    //   this.setState({ name: e.target.value });
+    // };
+    // handlePrice = e => {
+    //   this.setState({ price: e.target.value });
+    // };
+    // handleQuantity = e => {
+    //   this.setState({ quantity: e.target.value });
+    // };
+    // handleSnackbar = () => {
+    //   var bar = document.getElementById("snackbar");
+    //   bar.className = "show";
+    //   setTimeout(function() {
+    //     bar.className = bar.className.replace("show", "");
+    //   }, 3000);
+    //
+    //   var url = HOST + `/inventory/products`;
+    //   axios.get(url).then(response => {
+    //     this.setState({ products: response.data });
+    //   });
+    // };
+    //
+    // render() {
+    //   var { products, snackMessage, selectedProducts } = this.state;
+    //   var renderProducts = () => {
+    //     if (products.length === 0) {
+    //       return <p>{products}</p>;
+    //     } else {
+    //       return products.map(product => (
+    //         <Product {...product} onEditProduct={this.handleEditProduct} />
+    //       ));
+    //     }
+    //   };
+    //   var renderSelectedProducts = () => {
+    //     if (products.length === 0) {
+    //       return <p>{selectedProducts}</p>;
+    //     } else {
+    //       return
+    //         <Product {...selectedProducts} onChange={this.handleAddProduct} />
+    //     }
+    //   };
+    //
+    //   return (
+    //     <div>
+    //
+    //       <div className="container">
+    //         <a
+    //           className="btn btn-success pull-right"
+    //           onClick={() => this.setState({ productFormModal: true })}
+    //         >
+    //           <i className="glyphicon glyphicon-plus" /> Add New Item
+    //         </a>
+    //         <br />
+    //         <br />
+    //         <Paper>
+    //         <Table className="table">
+    //           <TableHead>
+    //             <TableRow className="inv-table">
+    //               <TableCell>Name</TableCell>
+    //               <TableCell numeric>Price</TableCell>
+    //               <TableCell numeric>Quantity on Hand</TableCell>
+    //             </TableRow>
+    //           </TableHead>
+    //           <TableBody>{renderSelectedProducts()}</TableBody>
+    //         </Table>
+    //         </Paper>
+    //
+    //         <Paper>
+    //         <Table className="table">
+    //           <TableHead>
+    //             <TableRow className="inv-table">
+    //               <TableCell>Name</TableCell>
+    //               <TableCell numeric>Price</TableCell>
+    //               <TableCell numeric>Quantity on Hand</TableCell>
+    //             </TableRow>
+    //           </TableHead>
+    //           <TableBody>{renderProducts()}</TableBody>
+    //         </Table>
+    //         </Paper>
+    //       </div>
+    //
+    //       <Modal show={this.state.productFormModal}>
+    //         <Modal.Header>
+    //           <Modal.Title>Add Product</Modal.Title>
+    //         </Modal.Header>
+    //         <Modal.Body>
+    //           <form className="form-horizontal" name="newProductForm">
+    //             <div className="form-group">
+    //               <label className="col-md-4 control-label" htmlFor="barcode">
+    //                 Barcode
+    //               </label>
+    //               <div className="col-md-4">
+    //                 <input
+    //                   id="barcode"
+    //                   name="barcode"
+    //                   placeholder="Barcode"
+    //                   className="form-control"
+    //                 />
+    //               </div>
+    //             </div>
+    //             <div className="form-group">
+    //               <label className="col-md-4 control-label" htmlFor="name">
+    //                 Name
+    //               </label>
+    //               <div className="col-md-4">
+    //                 <input
+    //                   name="name"
+    //                   placeholder="Name"
+    //                   className="form-control"
+    //                   onChange={this.handleName}
+    //                 />
+    //               </div>
+    //             </div>
+    //             <div className="form-group">
+    //               <label className="col-md-4 control-label" htmlFor="price">
+    //                 Price
+    //               </label>
+    //               <div className="col-md-4">
+    //                 <input
+    //                   name="price"
+    //                   placeholder="Price"
+    //                   className="form-control"
+    //                   onChange={this.handlePrice}
+    //                   type="number"
+    //                   step="any"
+    //                   min="0"
+    //                 />
+    //               </div>
+    //             </div>
+    //             <div className="form-group">
+    //               <label className="col-md-4 control-label" htmlFor="quantity_on_hand">
+    //                 Quantity On Hand
+    //               </label>
+    //               <div className="col-md-4">
+    //                 <input
+    //                   name="quantity_on_hand"
+    //                   placeholder="Quantity On Hand"
+    //                   onChange={this.handleQuantity}
+    //                   className="form-control"
+    //                 />
+    //               </div>
+    //             </div>
+    //             <div className="form-group">
+    //               <label className="col-md-4 control-label" htmlFor="image">
+    //                 Upload Image
+    //               </label>
+    //               <div className="col-md-4">
+    //                 <input type="file" name="image" />
+    //               </div>
+    //             </div>
+    //             <br /> <br /> <br />
+    //           </form>
+    //         </Modal.Body>
+    //         <Modal.Footer>
+    //           <Button onClick={() => this.setState({ productFormModal: false })}>
+    //             Close
+    //           </Button>
+    //           <Button onClick={this.handleNewProduct}>Submit</Button>
+    //         </Modal.Footer>
+    //       </Modal>
+    //       <div id="snackbar">{snackMessage}</div>
+    //     </div>
+    //   );
+    // }
+
+    constructor(props) {
+        super(props);
+        // Устанавливаем состояние
+        this.state = {
+            products: null,
+            initialproducts: null,
+            selectedProducts: {},
+            selectedImportProducts: {},
+            active: 0,
+            term: '',
+            inventoryState: 'inventoryShow',
+            snackMessage: "",
+            handleName: "",
+            handlePrice: ""
+        };
+        // this.handlerNewItem = this.handlerNewItem.bind(this);
+
+        // Сразу загружаем данные
+        // this.loadData();
+
+    }
+
+    handleName = e => {
+        this.setState({name: e.target.value});
     };
-    this.handleNewProduct = this.handleNewProduct.bind(this);
-    this.handleName = this.handleName.bind(this);
-    this.handlePrice = this.handlePrice.bind(this);
-    this.handleQuantity = this.handleQuantity.bind(this);
-    this.handleSnackbar = this.handleSnackbar.bind(this);
-    this.handleAddProduct = this.handleAddProduct.bind(this);
-  }
+    handlePrice = e => {
+        this.setState({price: e.target.value});
+    };
 
+    handleNewProduct = e => {
+        e.preventDefault();
+        this.setState({productFormModal: false});
+        var newProduct = {
+            name: this.state.name,
+            quantity: 0,
+            price: this.state.price,
+        };
+
+        axios
+            .post(HOST + `/inventory/product`, newProduct)
+            .then(
+                // window.location.reload()
+                // axios.get(HOST + `/inventory/products`).then(response => {
+                //     this.setState({products: response.data, initialproducts: response.data});
+                //      console.log(response.data);
+                // })
+            )
+            .catch(err => {
+                console.log(err.response)
+            });
+        
+
+    };
   
 
-  componentWillMount() {
-    var url = HOST + `/inventory/products`;
-    axios.get(url).then(response => {
-      this.setState({ products: response.data });
-    });
-  }
-  handleNewProduct = e => {
-    e.preventDefault();
-    this.setState({ productFormModal: false });
-    var newProduct = {
-      name: this.state.name,
-      quantity: this.state.quantity,
-      price: this.state.price,
-    };
-
-    axios
-      .post(HOST + `/inventory/product`, newProduct)
-      .then(
-        response =>
-          window.location.reload(),
-        
-      )
-      .catch(err => {
-        console.log(err.response),
-          this.setState({ snackMessage: "Product failed to save" }),
-          this.handleSnackbar();
-      });
+    componentWillMount() {
+        var url = HOST + `/inventory/products`;
+        axios.get(url).then(response => {
+            this.setState({products: response.data, initialproducts: response.data});
+            // console.log(this.state);
+        });
+    }
     
-    
-  };
-  handleEditProduct = editProduct => {
-    axios
-      .put(HOST + `/inventory/product`, editProduct)
-      .then(response => {
-        this.setState({ snackMessage: "Product Updated Successfully!" });
-        this.handleSnackbar();
-        return true;
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({ snackMessage: "Product Update Failed!" }),
-          this.handleSnackbar();
-        return false;
-      });
-  };
-  handleAddProduct = e => {
-    var { products } = this.state;
-    const selectedProducts = products.filter(product => (product.selected = true));
-    this.setState({selectedProducts: selectedProducts});
-  };
 
-  handleName = e => {
-    this.setState({ name: e.target.value });
-  };
-  handlePrice = e => {
-    this.setState({ price: e.target.value });
-  };
-  handleQuantity = e => {
-    this.setState({ quantity: e.target.value });
-  };
-  handleSnackbar = () => {
-    var bar = document.getElementById("snackbar");
-    bar.className = "show";
-    setTimeout(function() {
-      bar.className = bar.className.replace("show", "");
-    }, 3000);
+    updateData(config) {
+        this.setState(config);
+    }
 
-    var url = HOST + `/inventory/products`;
-    axios.get(url).then(response => {
-      this.setState({ products: response.data });
-    });
-  };
 
-  render() {
-    var { products, snackMessage, selectedProducts } = this.state;
+    render() {
 
-    var renderProducts = () => {
-      if (products.length === 0) {
-        return <p>{products}</p>;
-      } else {
-        return products.map(product => (
-          <Product {...product} onEditProduct={this.handleEditProduct} />
-        ));
-      }
-    };
-    var renderSelectedProducts = () => {
-      if (products.length === 0) {
-        return <p>{selectedProducts}</p>;
-      } else {
-        return 
-          <Product {...selectedProducts} onChange={this.handleAddProduct} />
-      }
-    };
+        return (
+            <div>
 
-    return (
-      <div>
+                <div className="container">
 
-        <div className="container">
-          <a
-            className="btn btn-success pull-right"
-            onClick={() => this.setState({ productFormModal: true })}
-          >
-            <i className="glyphicon glyphicon-plus" /> Add New Item
-          </a>
-          <br />
-          <br />
-          <Paper>
-          <Table className="table">
-            <TableHead>
-              <TableRow className="inv-table">
-                <TableCell>Name</TableCell>
-                <TableCell numeric>Price</TableCell>
-                <TableCell numeric>Quantity on Hand</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>{renderSelectedProducts()}</TableBody>
-          </Table>
-          </Paper>
-          
-          <Paper>
-          <Table className="table">
-            <TableHead>
-              <TableRow className="inv-table">
-                <TableCell>Name</TableCell>
-                <TableCell numeric>Price</TableCell>
-                <TableCell numeric>Quantity on Hand</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>{renderProducts()}</TableBody>
-          </Table>
-          </Paper>
-        </div>
-
-        <Modal show={this.state.productFormModal}>
-          <Modal.Header>
-            <Modal.Title>Add Product</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <form className="form-horizontal" name="newProductForm">
-              <div className="form-group">
-                <label className="col-md-4 control-label" htmlFor="barcode">
-                  Barcode
-                </label>
-                <div className="col-md-4">
-                  <input
-                    id="barcode"
-                    name="barcode"
-                    placeholder="Barcode"
-                    className="form-control"
-                  />
+                    <div className="row">
+                        <div className="col-xs-3">
+                            <Searchbar
+                                term={this.state.term}
+                                products={this.state.initialproducts}
+                                update={this.updateData.bind(this)}
+                            />
+                        </div>
+                        <div className="col-xs-5 text-left">
+                            <Toolbar initialproducts={this.state.initialproducts} products={this.state.products}
+                                     update={this.updateData.bind(this)}/>
+                        </div>
+                        <div className="col-xs-4 flex-around">
+                            <a
+                                className="btn btn-warning"
+                                onClick={() => this.setState({inventoryState: 'importShow'})}
+                            >
+                                <i className="glyphicon glyphicon-import"/> Income
+                            </a>
+                            <a
+                                className="btn btn-primary"
+                                onClick={() => this.setState({inventoryState: 'inventoryShow'})}
+                            >
+                                <i className="glyphicon glyphicon-list"/> Inventory
+                            </a>
+                            <a
+                                className="btn btn-info"
+                                onClick={() => this.setState({inventoryState: 'cartShow'})}
+                            >
+                                <i className="glyphicon glyphicon-shopping-cart"/> Sale
+                            </a>
+                        </div>
+                    </div>
+                    <div className={'mainInventoryContainer ' + this.state.inventoryState}>
+                        <div className="importContainer">
+                            <Paper>
+                                <ImportList products={this.state.products}
+                                            selectedProducts={this.state.selectedProducts}
+                                            update={this.updateData.bind(this)}
+                                            type='importlist'
+                                            inventoryState={this.state.inventoryState}
+                                            selectedImportProducts={this.state.selectedImportProducts}/>
+                            </Paper>
+                        </div>
+                        <div className="inventoryList">
+                            <Paper>
+                                <InventoryList products={this.state.products}
+                                               selectedProducts={this.state.selectedProducts}
+                                               update={this.updateData.bind(this)} type='' inventoryState={this.state.inventoryState} selectedImportProducts={this.state.selectedImportProducts}/>
+                            </Paper>
+                        </div>
+                        <div className="cartContainer">
+                            <Paper>
+                                <SelectedList products={this.state.products}
+                                              selectedProducts={this.state.selectedProducts}
+                                              update={this.updateData.bind(this)} type='selectedlist'/>
+                            </Paper>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div className="form-group">
-                <label className="col-md-4 control-label" htmlFor="name">
-                  Name
-                </label>
-                <div className="col-md-4">
-                  <input
-                    name="name"
-                    placeholder="Name"
-                    className="form-control"
-                    onChange={this.handleName}
-                  />
-                </div>
-              </div>
-              <div className="form-group">
-                <label className="col-md-4 control-label" htmlFor="price">
-                  Price
-                </label>
-                <div className="col-md-4">
-                  <input
-                    name="price"
-                    placeholder="Price"
-                    className="form-control"
-                    onChange={this.handlePrice}
-                    type="number"
-                    step="any"
-                    min="0"
-                  />
-                </div>
-              </div>
-              <div className="form-group">
-                <label className="col-md-4 control-label" htmlFor="quantity_on_hand">
-                  Quantity On Hand
-                </label>
-                <div className="col-md-4">
-                  <input
-                    name="quantity_on_hand"
-                    placeholder="Quantity On Hand"
-                    onChange={this.handleQuantity}
-                    className="form-control"
-                  />
-                </div>
-              </div>
-              <div className="form-group">
-                <label className="col-md-4 control-label" htmlFor="image">
-                  Upload Image
-                </label>
-                <div className="col-md-4">
-                  <input type="file" name="image" />
-                </div>
-              </div>
-              <br /> <br /> <br />
-            </form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={() => this.setState({ productFormModal: false })}>
-              Close
-            </Button>
-            <Button onClick={this.handleNewProduct}>Submit</Button>
-          </Modal.Footer>
-        </Modal>
-        <div id="snackbar">{snackMessage}</div>
-      </div>
-    );
-  }
+
+                <Modal show={this.state.productFormModal}>
+                    <Modal.Header>
+                        <Modal.Title>Add Product</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form className="form-horizontal" name="newProductForm">
+                            
+                            <div className="form-group">
+                                <label className="col-md-4 control-label" htmlFor="name">
+                                    Name
+                                </label>
+                                <div className="col-md-4">
+                                    <input
+                                        name="name"
+                                        placeholder="Name"
+                                        className="form-control"
+                                        onChange={this.handleName}
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="col-md-4 control-label" htmlFor="price">
+                                    Price
+                                </label>
+                                <div className="col-md-4">
+                                    <input
+                                        name="price"
+                                        placeholder="Price"
+                                        className="form-control"
+                                        onChange={this.handlePrice}
+                                        type="number"
+                                        step="any"
+                                        min="0"
+                                    />
+                                </div>
+                            </div>
+                            
+                            <br/> <br/> <br/>
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={() => this.setState({productFormModal: false})}>
+                            Close
+                        </Button>
+                        <Button onClick={this.handleNewProduct} >Submit</Button>
+                    </Modal.Footer>
+                </Modal>
+
+            </div>
+
+        );
+    }
+
 }
 
 export default Inventory;

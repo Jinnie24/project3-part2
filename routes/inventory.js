@@ -3,17 +3,21 @@ const inventoryController = require("../controllers/inventoryController");
 
 
 router.route("/products")
-  .get(inventoryController.findAll);
+  .get(inventoryController.findAll)
+  .put(inventoryController.updateByTransaction)
 
 router.route("/product")
+  .get(inventoryController.findById)
   .post(inventoryController.create)
   .put(inventoryController.update);
 
+router.route("/selectedProducts")
+  .post(inventoryController.create)
+  .get(inventoryController.findAll);
 
 router
   .route("/product/:id")
   .get(inventoryController.findById)
-  // .put(inventoryController.update)
   .delete(inventoryController.remove);
 
 module.exports = router;

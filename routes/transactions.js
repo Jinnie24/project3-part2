@@ -6,6 +6,9 @@ router.route("/")
     .get(transactionsController.findAll)
     .post(transactionsController.create);
 
+router.route("/create")
+    .post(transactionsController.create);
+
 router.route("/all")
     .get(transactionsController.findAll)
 

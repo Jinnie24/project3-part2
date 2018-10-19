@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const TransactionsSchema = new Schema({
     date: { type: Date, default: Date.now },
-    postedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     items: [{
         type: Schema.Types.ObjectId,
         ref: "Inventory"

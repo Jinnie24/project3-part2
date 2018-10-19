@@ -18,17 +18,9 @@ mongoose.connect(
 const transactionsSeed = [
   {
     date: new Date(Date.now()),
-    postedBy: user,
-    items: [InvItems],
+    items: [ObjectId("5bc6472a23af4c1919ae1ab0"), ObjectId("5bc647e823af4c1919ae1ab2")],
     invoiceType: "add",
     total: 180
-  }, 
-  {
-    date: new Date(Date.now()),
-    postedBy: user2,
-    items: [InvItems2],
-    invoiceType: "subtract",
-    total: 12
   }
 ];
 

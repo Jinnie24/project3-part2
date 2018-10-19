@@ -73,12 +73,13 @@ module.exports = {
   },
   create: function(req, res) {
     var newTransaction = req.body;
+    invoiceType = req.body.invoiceType;
 
-    db.Transactions.insert(newTransaction, function(err, transaction) {
+    db.Transactions.create(newTransaction, function(err, transaction) {
       if (err) res.status(500).send(err);
       else {
         res.sendStatus(200);
-        Inventory.decrementInventory(transaction.items);
+        db.Inventory.updateByTransaction(transaction.items, invoiceType);
       }
     });
   },
