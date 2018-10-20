@@ -69,7 +69,7 @@ class Inventory extends Component {
                 console.log(err.response)
             });
         }
-        window.location.reload();
+        
 
     };
   
