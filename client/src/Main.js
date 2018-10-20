@@ -18,7 +18,6 @@ import LogoutFunction from './containers/LogoutFunction.js';
 import SignUpPage from './containers/SignUpPage.js';
 import HomePage from './components/HomePage.js';
 import DashboardPage from './containers/DashboardPage.js';
-import CustomPaginationActionsTable from './components/CustomPaginationActionsTable.js';
 import Auth from './modules/Auth';
 
 

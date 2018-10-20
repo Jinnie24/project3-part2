@@ -31,9 +31,7 @@ export default ({ product,selectedProducts,index, keyto, update, type, inventory
         update({
             selectedImportProducts: selectedImportProducts
         });
-        // ИНДИРЬ, где-то сдесь добавлять новый элемент в массив
-        // если что !! - проверка на сущестоввание, !!! - ненене девид блейн, ой то есть если не существует, тооо
-        // проверка шайтанская, лучше пользоваться нормальными
+
             if(!!!selectedImportProducts[id]) selectedImportProducts[id] = '0';
             update({
                 selectedImportProducts: selectedImportProducts
