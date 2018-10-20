@@ -59,6 +59,8 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
             .catch(err => {
                 console.log(err.response)
             });
+         update({inventoryState: 'inventoryShow'});
+        // window.location.reload();
            
     }
 

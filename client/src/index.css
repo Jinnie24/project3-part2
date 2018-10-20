@@ -17,3 +17,8 @@ a {
 .table {
   font-family: 'Alice', serif;
 }
+#g-recaptcha {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
