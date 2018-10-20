@@ -60,7 +60,6 @@ class Inventory extends Component {
             axios
             .post(HOST + `/inventory/product`, newProduct)
             .then(
-                 window.location.reload()
                 // axios.get(HOST + `/inventory/products`).then(response => {
                 //     this.setState({products: response.data, initialproducts: response.data});
                 //      console.log(response.data);
@@ -70,7 +69,7 @@ class Inventory extends Component {
                 console.log(err.response)
             });
         }
-        
+        window.location.reload();
 
     };
   
