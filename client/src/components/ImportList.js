@@ -92,13 +92,13 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
                     </TableHead>
                     <TableBody>
                         <TableRow className="empty-selected">
-                            Add something
-                            <a
+                            Add something from right
+                            {/* <a
                             className="btn btn-success"
                             onClick={() => update({productFormModal: true})}
                             >
                             <i className="glyphicon glyphicon-plus"/>     Add New Item
-                            </a>
+                            </a> */}
                         </TableRow>
                     </TableBody>
                 </Table>
@@ -123,12 +123,14 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
                     </TableBody>
                 </Table>
                 <div className={"text-right import-total"}>
+                <div className={"text-right order-total"}>
                     <a
                         className="btn btn-success"
                         onClick={sendOrder}
                     >
                         <i className="glyphicon glyphicon-shopping-cart"/> ADD NEW PRODUCTS
                     </a>
+                </div>
                 </div>
             </div>
         );

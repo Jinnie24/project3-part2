@@ -131,11 +131,12 @@ export default ({ product,selectedProducts,index, keyto, update, type, inventory
                 <span className="quantity-control">
                     <NumericInput min={0} max={1000} strict={true}
                                   value={0} style={{
-                        input: {
-                            height: '40px',
-                            width: '100px',
-                            fontSize: '22px'
-                        }
+                                input: {
+                                    height: '40px',
+                                    width: '100px',
+                                    fontSize: '22px',
+                                    fontFamily: 'Alice, serif'
+                                }
                     }}
                                   onChange={addquantity}
                     />
