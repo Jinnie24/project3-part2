@@ -91,7 +91,8 @@ export default ({ product,selectedProducts,index, keyto, update, type, inventory
                         input: {
                             height: '40px',
                             width: '100px',
-                            fontSize: '22px'
+                            fontSize: '22px',
+                            fontFamily: 'Alice, serif'
                         }
                     }}
                                   onChange={addquantityimport}

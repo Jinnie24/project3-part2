@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Alice', serif;
+  background-image: url("./assets/background.jpg");
+  background-size: auto;
+
+}
+a {
+  color: #bca176;
+  font-family: 'Kaushan Script', cursive;
+  font-size: 26px;
+}
+.btn {
+  font-family: 'Alice', serif;
+}
+.table {
+  font-family: 'Alice', serif;
+}

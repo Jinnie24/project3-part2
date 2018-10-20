@@ -10,7 +10,7 @@ class TransactionDetail extends Component {
         <tr>
           <td> {quantity} </td>
           <td>
-            <a>{name}</a>
+            <p>{name}</p>
           </td>
           <td>
             <span>{productTotal}</span>
