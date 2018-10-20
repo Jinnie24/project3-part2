@@ -33,16 +33,19 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
     });
     const sendOrder = e =>{
         console.log('Send order');
-        
+        let totalquantity=0;
         for (let i=0; i<selprod.length; i++) {
             let val = selprod[i]._id
             selprod[i].quantity = selectedProducts[val];
+            totalquantity+=selprod[i].quantity;
+
         }
         // console.log(selectedProducts,selprod,totalprice);
         let newTransaction = {
             items : selprod,
             invoiceType : "subtract",
-            total : totalprice
+            total : totalprice,
+            totalquantity:totalquantity
         }
 
         axios

@@ -10,8 +10,16 @@ import Product from "./Product";
 
 export default ({ products,selectedProducts,update,type,inventoryState,selectedImportProducts }) => {
     if (!products) { return (<p>Loading...</p>); }
+    let chkproducts;
+    if(inventoryState=="cartShow"){
+        chkproducts = products.filter((product) => {
+            return +product.quantity>0;
+        });
+    }else{
+        chkproducts = products.slice(0)
+    }
 
-    const prodview = products.map((product, index) => {
+    const prodview = chkproducts.map((product, index) => {
         // console.log(product);
         // console.log(selectedImportProducts);
         return (<ProductData key={product._id}
@@ -25,6 +33,7 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
                              selectedImportProducts={selectedImportProducts}
         />);
     });
+
     if(inventoryState==='importShow'){
         return (
             <Table className="table user-list">

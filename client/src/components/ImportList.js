@@ -10,7 +10,7 @@ import Autosuggest from 'react-autosuggest';
 import axios from "axios";
 // import Product from "./Product";
 
-export default ({ products,selectedProducts,update,type,inventoryState,selectedImportProducts }) => {
+export default ({ products,selectedProducts,update,type,inventoryState,selectedImportProducts,initialproducts }) => {
     const HOST = "http://localhost:3001";
     if (!products) { return ('Select smth please'); }
     let totalprice=0;
@@ -31,21 +31,25 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
                              inventoryState={inventoryState}
                              selectedImportProducts={selectedImportProducts}/>);
     });
-
-    const sendOrder = e =>{
+    // console.log(initialproducts);
+    const sendOrder = startproducts =>{
         console.log('Send order');
-        
+
+        totalprice=0;
+        let totalquantity=0;
         for (let i=0; i<selimportprod.length; i++) {
             let val = selimportprod[i]._id
-            selimportprod[i].quantity = selectedImportProducts[val];
+            selimportprod[i].quantity = selectedImportProducts[val][0];
+            totalquantity+=selectedImportProducts[val][0];
             totalprice += selimportprod[i].quantity*selimportprod[i].price
         }
         
-         
+
         let newTransaction = {
             items : selimportprod,
             invoiceType : "add",
-            total : totalprice
+            total : totalprice,
+            totalquantity:totalquantity
         }
         console.log(newTransaction);
         axios
@@ -59,7 +63,18 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
             .catch(err => {
                 console.log(err.response)
             });
-         update({inventoryState: 'inventoryShow'});
+        // console.log(initialproducts);
+        let newproductarr=initialproducts.map((newproduct, index) => {
+            if(!!selectedImportProducts[newproduct['_id']]){
+                let newprodobj = Object.assign({},newproduct);
+                newprodobj['quantity'] = +newproduct['quantity']+selectedImportProducts[newproduct['_id']][1];
+                return newprodobj;
+            }else{
+                return newproduct;
+            }
+        });
+        // console.log(newproductarr);
+         update({inventoryState: 'inventoryShow',products:newproductarr});
         // window.location.reload();
            
     }
@@ -108,12 +123,6 @@ export default ({ products,selectedProducts,update,type,inventoryState,selectedI
                     </TableBody>
                 </Table>
                 <div className={"text-right import-total"}>
-                    <a
-                        className="btn btn-success"
-                        onClick={() => update({productFormModal: true})}
-                    >
-                        <i className="glyphicon glyphicon-plus"/>     Add New Item
-                    </a>
                     <a
                         className="btn btn-success"
                         onClick={sendOrder}

@@ -1,6 +1,11 @@
 import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import { Modal } from "react-bootstrap";
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Forward';
 import EditIcon from '@material-ui/icons/Edit';
@@ -23,11 +28,8 @@ export default ({ product,selectedProducts,index, keyto, update, type, inventory
         // console.log(id);
         console.log(selectedImportProducts);
         // // console.log(selectedProducts);
-        update({
-            selectedImportProducts: selectedImportProducts
-        });
 
-            if(!!!selectedImportProducts[id]) selectedImportProducts[id] = '0';
+            if(!!!selectedImportProducts[id]) selectedImportProducts[id] = [0,product['quantity']];
             update({
                 selectedImportProducts: selectedImportProducts
             });
@@ -38,7 +40,7 @@ export default ({ product,selectedProducts,index, keyto, update, type, inventory
         }
     };
     const addquantityimport = num =>{
-        selectedImportProducts[keyto]=num;
+        selectedImportProducts[keyto][0]=num;
     };
     const deleteFromSelected = (id) => {
         delete  selectedProducts[id];
@@ -82,7 +84,7 @@ export default ({ product,selectedProducts,index, keyto, update, type, inventory
                     <TableCell numeric>
                 <span className="quantity-control">
                     <NumericInput min={0} max={1000} strict={true}
-                                  value={(!!selectedImportProducts[keyto]) ? selectedImportProducts[keyto] : 0} style={{
+                                  value={(!!selectedImportProducts[keyto]) ? selectedImportProducts[keyto][0] : 0} style={{
                         input: {
                             height: '40px',
                             width: '100px',

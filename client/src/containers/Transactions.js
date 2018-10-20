@@ -46,9 +46,10 @@ class Transactions extends Component {
         <table className="table table-hover table-striped">
           <thead>
             <tr>
+              <th>Type</th>
               <th>Time</th>
               <th>Total</th>
-              <th>Products</th>
+              <th>Quantity</th>
               <th>Open</th>
             </tr>
           </thead>

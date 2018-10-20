@@ -60,6 +60,7 @@ class Inventory extends Component {
             axios
             .post(HOST + `/inventory/product`, newProduct)
             .then(
+                 window.location.reload()
                 // axios.get(HOST + `/inventory/products`).then(response => {
                 //     this.setState({products: response.data, initialproducts: response.data});
                 //      console.log(response.data);
@@ -96,6 +97,7 @@ class Inventory extends Component {
                 <div className="container">
 
                     <div className="row">
+
                         <div className="col-xs-3">
                             <Searchbar
                                 term={this.state.term}
@@ -106,8 +108,19 @@ class Inventory extends Component {
                         <div className="col-xs-5 text-left">
                             <Toolbar initialproducts={this.state.initialproducts} products={this.state.products}
                                      update={this.updateData.bind(this)}/>
+
+
                         </div>
-                        <div className="col-xs-4 flex-around">
+                        <div className={"col-xs-4"}>
+                            <a
+                                className="btn btn-success pull-right"
+                                onClick={() => this.setState({ productFormModal: true })}
+                            >
+                                <i className="glyphicon glyphicon-plus"/>     Add New Item
+                            </a>
+
+                        </div>
+                        <div className={"col-xs-12 flex-stretch main-buttons "+this.state.inventoryState}>
                             <a
                                 className="btn btn-warning"
                                 onClick={() => this.setState({inventoryState: 'importShow'})}
@@ -136,7 +149,9 @@ class Inventory extends Component {
                                             update={this.updateData.bind(this)}
                                             type='importlist'
                                             inventoryState={this.state.inventoryState}
-                                            selectedImportProducts={this.state.selectedImportProducts}/>
+                                            selectedImportProducts={this.state.selectedImportProducts}
+                                            initialproducts={this.state.initialproducts}
+                                />
                             </Paper>
                         </div>
                         <div className="inventoryList">

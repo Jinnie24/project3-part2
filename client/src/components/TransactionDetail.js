@@ -3,7 +3,7 @@ import React, { Component } from "react";
 
 class TransactionDetail extends Component {
   render() {
-    var { quantity, name, price } = this.props;
+    var { quantity, name, price,totalquantity } = this.props;
     var productTotal = parseInt(quantity, 10) * parseInt(price, 10);
     return (
       <tbody>

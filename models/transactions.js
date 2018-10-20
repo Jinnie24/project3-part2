@@ -12,7 +12,8 @@ const TransactionsSchema = new Schema({
         type: String, 
         required: true
     },
-    total: {type: Number, required: true }
+    total: {type: Number, required: true },
+    totalquantity: {type: Number, required: true }
 });
 
 const Transactions = mongoose.model("Transactions", TransactionsSchema);

@@ -74,11 +74,36 @@ a:hover {
   align-content: center;
   align-items: center;
   }
+.flex-stretch{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  }
+.flex-stretch .btn{
+  order: 0;
+  flex: 1 1 auto;
+  align-self: auto;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  font-size: 18px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  }
+.MuiPaper-rounded-2{border-top-left-radius:0 !important;border-top-right-radius:0 !important;}
 .flex-around .btn{margin-left: 10px;margin-right: 10px;}
 .toolbar .btn{margin-right: 10px;}
 .text-left{text-align: left !important;}
 .empty-selected a{margin-left: 20px;}
-
+.inventoryList thead tr,.cartContainer thead tr,.importShow thead tr{
+  height: 30px !important;
+  }
+.inventoryList th,.cartContainer th,.importShow th{
+  font-size: 12px;
+  vertical-align: middle !important;
+  }
 .inventoryList td,.cartContainer td,.importShow td{
   font-size: 16px;
   vertical-align: middle !important;
@@ -98,14 +123,14 @@ a:hover {
 .mainInventoryContainer.inventoryShow  .addbutton{display: none;}
 
 .mainInventoryContainer.cartShow .inventoryList{width: 60%;display: inline-block;}
-.mainInventoryContainer.cartShow .cartContainer{display: inline-block;width: 39%;order: 0;flex: 0 1 auto;align-self: stretch;}
+.mainInventoryContainer.cartShow .cartContainer{display: inline-block;width: 40%;order: 0;flex: 0 1 auto;align-self: stretch;}
 .mainInventoryContainer.cartShow .importContainer{display: none;}
 .mainInventoryContainer.cartShow .editbutton{display: none;}
 .mainInventoryContainer.cartShow .selectedlist .addbutton{display: none;}
 .mainInventoryContainer.cartShow .selectedlist .addbutton{display: none;}
 
 .mainInventoryContainer.importShow .inventoryList{width: 60%;display: inline-block;}
-.mainInventoryContainer.importShow .importContainer{display: inline-block;width: 39%;order: 0;flex: 0 1 auto;align-self: stretch;}
+.mainInventoryContainer.importShow .importContainer{display: inline-block;width: 40%;order: 0;flex: 0 1 auto;align-self: stretch;}
 .mainInventoryContainer.importShow .cartContainer{display: none;}
 .mainInventoryContainer.importShow .editbutton{display: none;}
 .mainInventoryContainer.importShow .inventoryList .addbutton{display: none;}
@@ -117,3 +142,14 @@ a:hover {
 .total-price{font-size: 22px;padding:10px 20px;}
 .empty-selected{height: 60px !important;vertical-align: middle !important;text-align: right !important;font-size: 20px;padding-left: 40px;line-height: 60px;}
 .addleftbutton{transform: rotate(180deg);}
+.table-striped{background: #fff;}
+.table-striped th{text-align: center !important;}
+.main-buttons a{box-shadow: 0 5px 20px rgba(0,0,0,0.2);}
+.main-buttons.inventoryShow a:nth-child(2){box-shadow: none;}
+.main-buttons.inventoryShow a:nth-child(2):hover{background-color: #337ab7;border-color: #2e6da4;cursor: default;}
+.main-buttons.cartShow a:nth-child(3){box-shadow: none;}
+.main-buttons.cartShow a:nth-child(3):hover{background-color: #5bc0de;border-color: #46b8da;cursor: default;}
+.main-buttons.importShow a:nth-child(1){box-shadow: none;}
+.main-buttons.importShow a:nth-child(1):hover{box-shadow: none;background-color: #f0ad4e;border-color: #eea236;cursor: default;}
+.order-total{padding-bottom: 20px;padding-right: 20px;padding-left: 20px;}
+.order-total .btn{padding: 20px 30px;font-size: 26px;width: 100%;}
