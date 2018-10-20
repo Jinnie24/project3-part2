@@ -24,12 +24,12 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  update: function(req, res){
-     db.Inventory
-      .findOneAndUpdate({ _id: req.body._id }, req.body)
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
-  },
+  // update: function(req, res){
+  //    db.Inventory
+  //     .findOneAndUpdate({ _id: req.body._id }, req.body)
+  //     .then(dbModel => res.json(dbModel))
+  //     .catch(err => res.status(422).json(err));
+  // },
   updateByTransaction: function(req, res) {
     const items = req.body.items;
     const invoiceType = req.body.invoiceType;

@@ -1,36 +1,60 @@
 import React, { Component } from "react";
 import { Modal, Button } from "react-bootstrap";
 import TransactionDetail from "./TransactionDetail";
+import axios from "axios";
+
+const HOST = "http://localhost:3001";
+const url = HOST + `/product`;
+
+
 class CompleteTransactions extends Component {
   constructor(props) {
     super(props);
     this.state = {
       transactionModal: false,
       totalquantity: 0,
-      items: []
+      items: [],
+      products: []
     };
   }
+  componentWillMount() {
+    var url = HOST + `/inventory/products`;
+    axios.get(url).then(response => {
+        this.setState({products: response.data});
+        // console.log(this.state);
+    });
+  }
+
+//   handleProducts = (items) => {
+//     let transactionItem = products.filter((product) => {
+//       return items.indexOf(product["_id"]);
+//     });
+//     console.log(transactionItem);
+// };
 
   render() {
-    var { date, total, items } = this.props;
-    var renderQuantity = items => {
+    var { date, total} = this.props;
+    // console.log(products);
+    // this.handleProducts(items);
+    var products = this.state.products;
+    var renderQuantity = products => {
       var totalquantity = 0;
-      for (var i = 0; i < items.length; i++) {
+      for (var i = 0; i < products.length; i++) {
         totalquantity =
-          parseInt(totalquantity, 10) + parseInt(items[i].quantity, 10);
+          parseInt(totalquantity, 10) + parseInt(products[i].quantity, 10);
       }
 
       return totalquantity;
     };
-    var renderItemDetails = items => {
-      return items.map(item => <TransactionDetail {...item} />);
+    var renderItemDetails = products => {
+      return products.map(item => <TransactionDetail {...item} />);
     };
 
     return (
       <tr>
         <td> {date}</td>
         <td> {total} </td>
-        <td> {renderQuantity(items)} </td>
+        <td> {renderQuantity(products)} </td>
         <td>
           <a
             className="btn btn-info"
@@ -56,7 +80,7 @@ class CompleteTransactions extends Component {
                     <th> Price </th>
                   </tr>
                 </thead>
-                {renderItemDetails(items)}
+                {renderItemDetails(products)}
                 <tbody>
                   <tr className="total">
                     <td />

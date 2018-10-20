@@ -299,7 +299,12 @@ class Inventory extends Component {
             price: this.state.price,
         };
 
-        axios
+        
+        let nameCheck = this.state.products.some(item => item.name === this.state.name);
+        if(nameCheck) {
+            alert("This name is already used");
+        } else {
+            axios
             .post(HOST + `/inventory/product`, newProduct)
             .then(
                 // window.location.reload()
@@ -311,6 +316,7 @@ class Inventory extends Component {
             .catch(err => {
                 console.log(err.response)
             });
+        }
         
 
     };
@@ -434,7 +440,7 @@ class Inventory extends Component {
                                     />
                                 </div>
                             </div>
-                            
+                            <span className="incorrectName"></span>
                             <br/> <br/> <br/>
                         </form>
                     </Modal.Body>
