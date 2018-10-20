@@ -11,7 +11,7 @@ class HomePage extends React.Component {
 
   render() {
     return (
-      <Card className="container">
+      <Card className="container" id ="home-page">
         <CardTitle style={{fontFamily: 'Kaushan Script'}} title="React Inventory Application" subtitle="This is the home page." />
           {Auth.isUserAuthenticated() ? (
             <CardText style={{ fontSize: '16px', color: 'green', fontFamily: 'Alice' }}>Welcome! You are logged in.</CardText>
